@@ -1,17 +1,60 @@
-# Node Express template project
+# plantilla Node Express con keycloak
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/user/project/#create-a-project-from-a-built-in-template).
+Este proyecto está basado en una [Plantilla de Proyecto de GitLab](https://docs.gitlab.com/ee/user/project/#create-a-project-from-a-built-in-template).
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
+Puedes proponer mejoras en el [proyecto original](https://gitlab.com/gitlab-org/project-templates/express).
 
-## CI/CD with Auto DevOps
+## CI/CD con Auto DevOps
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
+Esta plantilla es compatible con [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enable-or-disable-auto-devops) in the project settings.
+Si Auto DevOps no está habilitado para este proyecto, puedes [activarlo](https://docs.gitlab.com/ee/topics/autodevops/#enable-or-disable-auto-devops) en la configuración del proyecto.
 
-### Developing with Gitpod
+## Desarrollo con Gitpod
 
-This template has a fully-automated dev setup for [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
+Esta plantilla tiene una configuración de desarrollo totalmente automatizada para [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
 
-If you open this project in Gitpod, you'll get all Node dependencies pre-installed.
+Si abres este proyecto en Gitpod, tendrás todas las dependencias de Node preinstaladas.
+
+---
+
+## Documentación de Docker Compose
+
+El proyecto incluye un archivo `docker-compose.yml` para facilitar el despliegue de los servicios necesarios.
+
+### Servicios incluidos
+
+- **apidemo_formacion**: Servicio principal de la API Node Express.
+    - Construido desde el `Dockerfile` del proyecto.
+    - Expone el puerto `5002` (externo) mapeado al `5000` (interno).
+    - Variables de entorno para integración con Keycloak:
+        - `KEYCLOAK_URL`: URL del servidor Keycloak.
+        - `KEYCLOAK_SECRET`: Secreto del cliente.
+        - `KEYCLOAK_CLIENTNAME`: Nombre del cliente.
+        - `KEYCLOAK_REALM`: Realm de autenticación.
+    - Reinicio automático salvo detención manual.
+
+- **keycloak_formacion**: Servicio de autenticación basado en Keycloak.
+    - Imagen oficial de Keycloak.
+    - Expone el puerto `8085` (externo) mapeado al `8080` (interno).
+    - Variables de entorno para el usuario administrador:
+        - `KEYCLOAK_ADMIN`: Usuario admin.
+        - `KEYCLOAK_ADMIN_PASSWORD`: Contraseña admin.
+    - Persiste los datos en el volumen `keycloak-data-formacion`.
+    - Reinicio automático salvo detención manual.
+
+### Volúmenes
+
+- `keycloak-data-formacion`: Volumen persistente para los datos de Keycloak.
+
+### Ejecución
+
+Para levantar los servicios, ejecuta:
+
+```bash
+docker-compose up -d
+```
+
+Esto iniciará tanto la API como el servidor de autenticación Keycloak.
+
+---
