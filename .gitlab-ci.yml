@@ -1,0 +1,75 @@
+
+stages:   
+  - test     # List of stages for jobs, and their order of execution
+  - build
+  - deploy
+
+build-job:
+  tags:
+     - test  
+  stage: build    
+  script:
+    - npm install 
+    - echo "//${NPM_REGISTRY#http://}:_auth=$(echo -n "$NPM_USER:$NPM_PASSWORD" | base64)" > .npmrc && \
+    - echo "email=${NPM_EMAIL}" >> .npmrc && \
+    - echo "always-auth=true" >> .npmrc && \
+    - echo "registry=${NPM_REGISTRY}" >> .npmrc 
+    - cat .npmrc
+    - npm publish
+    
+build-container-job:
+  tags:
+     - test  
+  stage: build    
+  script:  
+    - echo "//${NPM_REGISTRY_CONTAINER#http://}:_auth=$(echo -n "$NPM_USER:$NPM_PASSWORD" | base64)" > .npmrc && \
+    - echo "email=${NPM_EMAIL}" >> .npmrc && \
+    - echo "always-auth=true" >> .npmrc && \
+    - echo "registry=${NPM_REGISTRY_CONTAINER}" >> .npmrc
+    - cat .npmrc
+    - echo "${DOCKER_PASS}" | docker login  http://${DOCKER_REGISTRY_HOST}:${DOCKER_REGISTRY_PORT} --username ${DOCKER_REGISTRY_USERNAME} --password-stdin
+    - docker build -t localhost:8082/npmapp:$CI_PIPELINE_ID  .
+    - docker push  localhost:8082/npmapp:$CI_PIPELINE_ID
+    - docker tag localhost:8082/npmapp:$CI_PIPELINE_ID localhost:8082/npmapp:latest
+    - docker push localhost:8082/npmapp:latest
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'     
+   
+
+unit-test-job:
+  tags:
+     - test   # This job runs in the test stage.
+  extends: build-job
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - npm install 
+    - npm run test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'    
+
+
+deploy-job:
+ stage: deploy
+ tags:
+ - test
+ environment: testingenv
+ needs:    
+    - job: unit-test-job
+    - job: build-job
+    - job: build-container-job
+ script:
+    - |
+        if [ "$(docker ps -a -q -f name=testapp)" ]; then
+          echo "El contenedor 'testapp' ya existe."
+          docker rm -f testapp
+          docker run -d --name testapp  -p 5002:5000 -e KEYCLOAK_URL=$KEYCLOAK_URL -e KEYCLOAK_SECRET=$KEYCLOAK_SECRET -e KEYCLOAK_CLIENTNAME=$KEYCLOAK_CLIENTNAME  localhost:8082/npmapp:$CI_PIPELINE_ID 
+        else
+          echo "El contenedor 'testapp' no existe. Creándolo..." 
+          docker run -d --name testapp  -p 5002:5000 -e KEYCLOAK_URL=$KEYCLOAK_URL -e KEYCLOAK_SECRET=$KEYCLOAK_SECRET -e KEYCLOAK_CLIENTNAME=$KEYCLOAK_CLIENTNAME  localhost:8082/npmapp:$CI_PIPELINE_ID 
+        fi
+    - sleep 5
+    - curl --fail http://localhost:5002/v1/api/health || (echo "La aplicación no respondió correctamente" && exit 1)
+ rules:
+  - if: '$CI_COMMIT_BRANCH == "master"'
+

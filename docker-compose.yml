@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+ apidemo_formacion:
+  build:
+    context: .
+    dockerfile: Dockerfile
+  container_name: apidemo
+  ports:
+  - "5002:5000" # Puerto de la aplicación
+  environment:
+  - KEYCLOAK_REALM=nodeapp
+  - KEYCLOAK_URL=http://danipc:8085
+  - KEYCLOAK_SECRET=skShtQ2sS2fAFlf4NoYe9nxHffcLMLGJ
+  - KEYCLOAK_CLIENTNAME=nodeclient
+  - SESSION_SECRET=skShtQ2sS2fAFlf4NoYe9nxHffcLMLGJ
+  restart: unless-stopped
+
+#  nexus_formacion:
+#   image: sonatype/nexus3:latest
+#   container_name: nexus_formacion
+#   ports:
+#   - "8083:8081" 
+#   - "8084:8082" 
+#   volumes:
+#   - nexus-data-formacion:/nexus-data
+#   environment:
+#   - INSTALL4J_ADD_VM_PARAMS=-Xms512m -Xmx2048m -XX:MaxDirectMemorySize=2g
+#   restart: unless-stopped
+
+ keycloak_formacion:
+  image: quay.io/keycloak/keycloak:latest
+  container_name: keycloak-formacion
+  environment:
+    - KEYCLOAK_ADMIN=admin
+    - KEYCLOAK_ADMIN_PASSWORD=admin
+  command: start-dev
+  ports:
+    - "8085:8080"
+  volumes:
+    - keycloak-data-formacion:/opt/keycloak/data  
+  restart: unless-stopped
+  
+
+volumes:
+#  nexus-data-formacion:
+  keycloak-data-formacion:

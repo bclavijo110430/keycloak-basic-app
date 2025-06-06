@@ -1,0 +1,22 @@
+{
+  "name": "demo",
+  "version": "0.0.4",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --exit tests/*",
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.4",
+    "keycloak-connect": "^26.1.1",
+    "express-session": "^1.17.3"
+
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "keycloak-connect": "^26.1.1",
+    "express-session": "^1.17.3"
+  }
+}
