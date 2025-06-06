@@ -1,21 +1,6 @@
 # plantilla Node Express con keycloak
 
 Este proyecto está basado en una [Plantilla de Proyecto de GitLab](https://docs.gitlab.com/ee/user/project/#create-a-project-from-a-built-in-template).
-
-Puedes proponer mejoras en el [proyecto original](https://gitlab.com/gitlab-org/project-templates/express).
-
-## CI/CD con Auto DevOps
-
-Esta plantilla es compatible con [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
-
-Si Auto DevOps no está habilitado para este proyecto, puedes [activarlo](https://docs.gitlab.com/ee/topics/autodevops/#enable-or-disable-auto-devops) en la configuración del proyecto.
-
-## Desarrollo con Gitpod
-
-Esta plantilla tiene una configuración de desarrollo totalmente automatizada para [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
-
-Si abres este proyecto en Gitpod, tendrás todas las dependencias de Node preinstaladas.
-
 ---
 
 ## Documentación de Docker Compose
