@@ -1,6 +1,6 @@
 # Requisitos previos
  - node https://nodejs.org/es
- - docker o rancher o docker engine : https://rancherdesktop.io/,https://docs.docker.com/desktop/,](https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
+ - docker desktop  o rancher o docker engine : https://rancherdesktop.io/,https://docs.docker.com/desktop/,](https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
  - docker compose:  https://docs.docker.com/compose/install/linux/
   ########en caso de instalar rancher desktop , o docker desktop no  es necesario intalar docker compose 
 # plantilla Node Express con keycloak
