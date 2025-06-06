@@ -1,6 +1,6 @@
 # Requisitos previos
  - node https://nodejs.org/es
- - docker, docker compose:  https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
+ - docker o rancher o docker engine , docker compose:  https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
 
 # plantilla Node Express con keycloak
 
