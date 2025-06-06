@@ -2,7 +2,7 @@
  - node https://nodejs.org/es
  - docker o rancher o docker engine : https://rancherdesktop.io/,https://docs.docker.com/desktop/,](https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
  - docker compose:  https://docs.docker.com/compose/install/linux/
-  ######## en caso de instalar rancher desktop , o docker desktop no  es necesario intalar docker compose 
+  ########en caso de instalar rancher desktop , o docker desktop no  es necesario intalar docker compose 
 # plantilla Node Express con keycloak
 
 Este proyecto está basado en una [Plantilla de Proyecto de GitLab](https://docs.gitlab.com/ee/user/project/#create-a-project-from-a-built-in-template).
