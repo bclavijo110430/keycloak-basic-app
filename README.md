@@ -1,3 +1,7 @@
+# Requisitos previos
+ - node https://nodejs.org/es
+ - docker, docker compose:  https://rancherdesktop.io/,https://docs.docker.com/desktop/,https://docs.docker.com/engine/install/
+
 # plantilla Node Express con keycloak
 
 Este proyecto está basado en una [Plantilla de Proyecto de GitLab](https://docs.gitlab.com/ee/user/project/#create-a-project-from-a-built-in-template).
