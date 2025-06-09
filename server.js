@@ -34,9 +34,15 @@ const keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);
 app.use(keycloak.middleware());
 
 // Ejemplo de ruta protegida
-app.get("/v1/api", keycloak.protect(), (req, res) => {
+app.get("/v1/api/login", keycloak.protect(), (req, res) => {
   return res.status(200).send({
     message: "user authenticated !!",
+  });
+});
+// Ruta de home
+app.get("/v1/api/home", (req, res) => {
+  return res.status(200).send({
+    message: "Bienvendio equipo detoditoOPS :) !",
   });
 });
 // Ruta de health check
