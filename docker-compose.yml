@@ -10,14 +10,16 @@ services:
   - "5002:5000" # Puerto de la aplicación
   environment:
   - KEYCLOAK_REALM=nodeapp
-  - KEYCLOAK_URL=http://danipc:8085
-  - KEYCLOAK_SECRET=skShtQ2sS2fAFlf4NoYe9nxHffcLMLGJ
+  - KEYCLOAK_URL=http://192.168.1.205:8085
+  - KEYCLOAK_SECRET=pWO14IMKx8e7tJwxFh1Zm6JBIXIYDAyn
   - KEYCLOAK_CLIENTNAME=nodeclient
-  - SESSION_SECRET=skShtQ2sS2fAFlf4NoYe9nxHffcLMLGJ
+  - SESSION_SECRET=pWO14IMKx8e7tJwxFh1Zm6JBIXIYDAyn
+  - NODE_ENV=testing
+  - LOGOUT_REDIRECT_URI=http://192.168.1.205:5002/v1/api/home
   restart: unless-stopped
 
 #  nexus_formacion:
-#   image: sonatype/nexus3:latest
+#   image: sonatype/nexus3:2.15.2-03
 #   container_name: nexus_formacion
 #   ports:
 #   - "8083:8081" 
@@ -29,7 +31,7 @@ services:
 #   restart: unless-stopped
 
  keycloak_formacion:
-  image: quay.io/keycloak/keycloak:latest
+  image: quay.io/keycloak/keycloak:26.2
   container_name: keycloak-formacion
   environment:
     - KEYCLOAK_ADMIN=admin
@@ -45,3 +47,4 @@ services:
 volumes:
 #  nexus-data-formacion:
   keycloak-data-formacion:
+
