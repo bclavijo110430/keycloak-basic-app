@@ -39,6 +39,15 @@ app.get("/v1/api/login", keycloak.protect(), (req, res) => {
     message: "user authenticated !!",
   });
 });
+
+// Ruta para cerrar sesión
+app.get("/v1/api/logout", keycloak.protect(), (req, res) => {
+  req.logout && req.logout();
+  res.redirect(
+    `${keycloakConfig["auth-server-url"]}/realms/${keycloakConfig.realm}/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(process.env.LOGOUT_REDIRECT_URI || "http://localhost:5000/v1/api/home")}`
+  );
+});
+
 // Ruta de home
 app.get("/v1/api/home", (req, res) => {
   return res.status(200).send({
